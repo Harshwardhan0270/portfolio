@@ -1,7 +1,7 @@
 // src/components/Home.jsx
 import React from "react";
 import { Typewriter } from "react-simple-typewriter";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { Github, Linkedin, Mail } from 'lucide-react';
 import avatar from "../assets/avatar.jpg"; // ✅ Correct relative path
 
 const Home = ({ darkMode }) => {
@@ -79,7 +79,7 @@ const Home = ({ darkMode }) => {
           rel="noopener noreferrer"
           className="hover:text-blue-500 transition-colors duration-200"
         >
-          <FaGithub />
+          <Github size={24} />
         </a>
         <a
           href="https://linkedin.com/in/harshwardhansahu"
@@ -87,13 +87,13 @@ const Home = ({ darkMode }) => {
           rel="noopener noreferrer"
           className="hover:text-blue-500 transition-colors duration-200"
         >
-          <FaLinkedin />
+          <Linkedin size={24} />
         </a>
         <a
           href="mailto:harshwardhansahu@gmail.com"
           className="hover:text-blue-500 transition-colors duration-200"
         >
-          <FaEnvelope />
+          <Mail size={24} />
         </a>
       </div>
     </section>

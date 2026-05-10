@@ -1,6 +1,6 @@
 // src/Experience.jsx
 import React from 'react';
-import { FaBriefcase, FaLaptopCode } from 'react-icons/fa';
+import { Briefcase, Monitor } from 'lucide-react';
 
 const experiences = [
   {
@@ -9,7 +9,7 @@ const experiences = [
     date: 'Aug 2024 – Oct 2024',
     description:
       'Worked on data extraction, preprocessing, and building predictive models using Python, Pandas, and Scikit-learn.',
-    icon: <FaLaptopCode />,
+    icon: <Monitor size={16} aria-hidden="true" />,
   },
   {
     role: 'Hackathon Participant',
@@ -17,7 +17,7 @@ const experiences = [
     date: '2024 – Present',
     description:
       'Developed innovative solutions in AI-powered KYC & multilingual chatbots. Focused on LLMs, LangChain, and API integration.',
-    icon: <FaBriefcase />,
+    icon: <Briefcase size={16} aria-hidden="true" />,
   },
 ];
 

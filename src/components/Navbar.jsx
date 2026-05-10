@@ -1,84 +1,147 @@
-import React, { useState } from "react";
-import { FaSun, FaMoon, FaBars, FaTimes } from "react-icons/fa";
+import React, { useState, useEffect } from 'react'
+import { Menu, X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const Navbar = ({ darkMode, toggleDarkMode }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const navItems = [
+  { id: 'home',       label: 'Home' },
+  { id: 'skills',     label: 'Skills' },
+  { id: 'projects',   label: 'Projects' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'resume',     label: 'Resume' },
+  { id: 'contact',    label: 'Contact' },
+]
 
-  const navLinks = ['home', 'skills', 'projects', 'experience', 'contact'];
+const scrollTo = (id) => {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeId, setActiveId] = useState('home')
+
+  // Frosted glass on scroll
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Active section via IntersectionObserver
+  useEffect(() => {
+    const observers = []
+    navItems.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveId(id) },
+        { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+    return () => observers.forEach(o => o.disconnect())
+  }, [])
 
   return (
     <nav
-      className={`fixed w-full top-0 z-50 flex items-center justify-between px-6 md:px-20 py-4 shadow-md transition-colors duration-300 ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      className={`fixed w-full top-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'py-3 bg-[#0f0f13]/90 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/20'
+          : 'py-5 bg-transparent'
       }`}
     >
-      {/* LOGO */}
-      <a
-        href="#home"
-        className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent hover:opacity-90 transition duration-300 whitespace-nowrap"
-      >
-        <span className="text-3xl">Harsh.</span>
-      </a>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
 
-      {/* DESKTOP NAV LINKS */}
-      <ul className="hidden sm:flex gap-6 text-sm font-semibold">
-        {navLinks.slice(1).map((link) => (
-          <li key={link}>
-            <a
-              href={`#${link}`}
-              className="hover:text-blue-500 transition"
-            >
-              {link.charAt(0).toUpperCase() + link.slice(1)}
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      {/* RIGHT SIDE - DARK TOGGLE & MOBILE MENU BUTTON */}
-      <div className="flex items-center gap-3">
-        {/* Dark Mode Toggle */}
+        {/* Logo */}
         <button
-          onClick={toggleDarkMode}
-          className="text-xl p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-          aria-label="Toggle dark mode"
+          onClick={() => scrollTo('home')}
+          className="text-sm font-black tracking-[0.15em] uppercase text-white hover:text-indigo-400 transition-colors"
         >
-          {darkMode ? (
-            <FaSun className="text-yellow-400" />
-          ) : (
-            <FaMoon className="text-blue-500" />
-          )}
+          HARSHWARDHAN<span className="text-indigo-400">.</span>
         </button>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-2xl sm:hidden"
-          aria-label="Toggle mobile menu"
-        >
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </button>
+        {/* Desktop nav */}
+        <ul className="hidden md:flex items-center gap-8">
+          {navItems.map(({ id, label }) => {
+            const isActive = activeId === id
+            return (
+              <li key={id}>
+                <button
+                  onClick={() => scrollTo(id)}
+                  className={`relative text-sm font-medium tracking-wide transition-colors duration-200 ${
+                    isActive ? 'text-white' : 'text-white/45 hover:text-white'
+                  }`}
+                >
+                  {label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-indigo-400"
+                    />
+                  )}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+
+        {/* Hire Me + hamburger */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => scrollTo('contact')}
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-500 transition-colors duration-200"
+          >
+            Hire Me
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-white/70 hover:text-white transition"
+            aria-label="Toggle mobile menu"
+          >
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
-      {/* MOBILE NAV LINKS */}
-      {isOpen && (
-        <ul
-          className="absolute top-20 right-6 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 space-y-3 sm:hidden z-40"
-        >
-          {navLinks.map((link) => (
-            <li key={link}>
-              <a
-                href={`#${link}`}
-                onClick={() => setIsOpen(false)}
-                className="block text-sm font-semibold hover:text-blue-500 transition"
-              >
-                {link.charAt(0).toUpperCase() + link.slice(1)}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22 }}
+            className="md:hidden overflow-hidden bg-[#16161d] border-t border-white/5"
+          >
+            <ul className="px-6 py-4 space-y-1">
+              {navItems.map(({ id, label }) => (
+                <li key={id}>
+                  <button
+                    onClick={() => { scrollTo(id); setIsOpen(false) }}
+                    className={`block w-full text-left py-2.5 text-sm font-medium transition-colors duration-200 ${
+                      activeId === id ? 'text-indigo-400' : 'text-white/60 hover:text-white'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                </li>
+              ))}
+              <li className="pt-2">
+                <button
+                  onClick={() => { scrollTo('contact'); setIsOpen(false) }}
+                  className="block w-full text-center py-2.5 rounded-full text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-500 transition"
+                >
+                  Hire Me
+                </button>
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

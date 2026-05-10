@@ -1,43 +1,36 @@
 // src/Skills.jsx
 import React from 'react'; 
-import {
-  FaPaintBrush,
-  FaCode,
-  FaDatabase,
-  FaToolbox,
-  FaCogs,
-  FaLaptopCode,
-} from 'react-icons/fa';
+import { Paintbrush, Code2, Database, Wrench, Settings, Monitor } from 'lucide-react';
 
 const skillsData = [
   {
     title: 'Frontend Development',
-    icon: <FaPaintBrush size={24} />,
+    icon: <Paintbrush size={24} aria-hidden="true" />,
     list: ['HTML5', 'CSS3', 'JavaScript (ES6+)', 'React.js', 'Tailwind CSS', 'Bootstrap'],
   },
   {
     title: 'Backend Development',
-    icon: <FaCode size={24} />,
+    icon: <Code2 size={24} aria-hidden="true" />,
     list: ['Node.js', 'Express.js', 'REST APIs', 'JWT Authentication'],
   },
   {
     title: 'Programming Languages',
-    icon: <FaLaptopCode size={24} />,
+    icon: <Monitor size={24} aria-hidden="true" />,
     list: ['Java', 'Python', 'JavaScript', 'C/C++ (Basics)'],
   },
   {
     title: 'Databases',
-    icon: <FaDatabase size={24} />,
+    icon: <Database size={24} aria-hidden="true" />,
     list: ['MongoDB', 'Firebase Realtime DB', 'MySQL (Basics)'],
   },
   {
     title: 'Tools & DevOps',
-    icon: <FaToolbox size={24} />,
+    icon: <Wrench size={24} aria-hidden="true" />,
     list: ['Git', 'GitHub', 'VS Code', 'Netlify', 'Vercel', 'NPM', 'Yarn'],
   },
   {
     title: 'UI/UX & Design',
-    icon: <FaCogs size={24} />,
+    icon: <Settings size={24} aria-hidden="true" />,
     list: ['Figma', 'Canva', 'Adobe XD', 'Chrome DevTools', 'Postman'],
   },
 ];

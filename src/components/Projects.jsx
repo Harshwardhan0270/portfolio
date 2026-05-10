@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaExternalLinkAlt } from 'react-icons/fa';
+import { ExternalLink } from 'lucide-react';
 
 const projects = [
   {
@@ -66,7 +66,7 @@ const Projects = ({ darkMode }) => {
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700"
               >
-                <FaExternalLinkAlt />
+                <ExternalLink size={20} />
               </a>
             </div>
             <p className="text-sm">{project.description}</p>

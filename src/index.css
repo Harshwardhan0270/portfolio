@@ -1,8 +1,89 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Optional custom styles */
+@theme {
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --color-accent: #6366f1;
+  --color-accent-light: #818cf8;
+  --color-surface-dark: #0f0f13;
+  --color-surface-card: #16161d;
+  --color-surface-border: rgba(255,255,255,0.07);
+
+  --animate-fade-in: fadeIn 1s ease-in-out;
+  --animate-fade-in-slow: fadeIn 2s ease-in-out;
+  --animate-slide-in: slideIn 1s ease-in-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0f0f13;
+  color: #e2e2e9;
+}
+
+/* Sections sit above canvas but keep transparent bg so grid shows through */
+section {
+  background: transparent;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0f0f13; }
+::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 3px; }
+
+/* Glass card */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Glow accent */
+.glow {
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.25);
+}
+
+/* Section label */
+.section-label {
+  font-family: var(--font-inter);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6366f1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

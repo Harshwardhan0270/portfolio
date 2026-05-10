@@ -1,35 +1,51 @@
-import React, { useState } from "react";
-import { Helmet } from "react-helmet";
-import Navbar from "./Navbar";
-import Home from "./Home";
-import Skills from "./Skills";
-import Projects from "./Projects";
-import Experience from "./Experience";
-import BlogResume from "./BlogResume";
-import Contact from "./Contact";
-import ErrorBoundary from "./ErrorBoundary";
+import React, { Suspense } from 'react'
+import { Helmet } from 'react-helmet'
+import { Toaster } from 'react-hot-toast'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import Background from './components/Background'
+import ErrorBoundary from './ErrorBoundary'
 
-const App = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+// All sections imported directly — single page scroll
+import Home from './pages/Home'
+import Skills from './pages/Skills'
+import Projects from './pages/Projects'
+import Experience from './pages/Experience'
+import Resume from './pages/Resume'
+import Contact from './pages/Contact'
 
+export default function App() {
   return (
     <ErrorBoundary>
-      <div className={darkMode ? "dark" : ""}>
-        <Helmet>
-          <title>Harshwardhan Sahu | Portfolio</title>
-        </Helmet>
-
-        <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-        <Home darkMode={darkMode} />
-        <Skills darkMode={darkMode} />
-        <Projects darkMode={darkMode} />
-        <Experience darkMode={darkMode} />
-        <BlogResume darkMode={darkMode} />
-        <Contact darkMode={darkMode} />
+      <Helmet>
+        <title>Harshwardhan Sahu | Portfolio</title>
+        <meta name="description" content="Portfolio of Harshwardhan Sahu — Full Stack Developer and AI Enthusiast." />
+      </Helmet>
+      <div className="bg-[#0f0f13] min-h-screen text-white">
+        <Background />
+        <Navbar />
+        <main className="relative z-10">
+          <section id="home"><Home /></section>
+          <section id="skills"><Skills /></section>
+          <section id="projects"><Projects /></section>
+          <section id="experience"><Experience /></section>
+          <section id="resume"><Resume /></section>
+          <section id="contact"><Contact /></section>
+        </main>
+        <Footer />
       </div>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#16161d',
+            color: '#e2e2e9',
+            border: '1px solid rgba(99,102,241,0.3)',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '14px',
+          },
+        }}
+      />
     </ErrorBoundary>
-  );
-};
-
-export default App;
+  )
+}
